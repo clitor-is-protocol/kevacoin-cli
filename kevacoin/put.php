@@ -60,5 +60,16 @@ if (!empty($kevaNamespace->namespaceId))
         );
 
         print_r($kevaPut);
+
+        $delay = isset($argv[4]) ? (int) $argv[4] : 60;
+
+        echo sprintf(
+            '%s/%s sent, waiting %s seconds...' . PHP_EOL,
+            $key + 1,
+            count($parts),
+            $delay
+        );
+
+        sleep($delay);
     }
 }

@@ -11,12 +11,13 @@ CLI util to operate with large objects in small blocks size
 export FS object to blockchain namespace
 
 ```
-php kevacoin/put.php processor filename [length]
+php kevacoin/put.php processor filename [length] [delay]
 ```
 
 * `processor` - path to `kevacoin-cli`
 * `filename`  - file path to store in blockchain
 * `length`    - optional split size, 3072 bytes [max](https://kevacoin.org/faq.html)
+* `delay`     - optional seconds of parts sending delay to prevent `too-long-mempool-chain` reject, 60 by default
 
 ### get
 
