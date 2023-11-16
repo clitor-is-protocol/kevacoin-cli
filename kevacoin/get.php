@@ -68,7 +68,7 @@ ksort($data);
 
 // Save merged data to destination
 $filename = isset($argv[3]) ? $argv[3] : sprintf(
-    '%s/../../data/import/kevacoin.%s.%s',
+    '%s/../data/import/kevacoin.%s.%s',
     __DIR__,
     $argv[2],
     $names[array_key_first($names)]
