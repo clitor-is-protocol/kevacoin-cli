@@ -17,7 +17,7 @@ php kevacoin/put.php processor filename [length] [delay]
 * `processor` - path to `kevacoin-cli`
 * `filename`  - file path to store in blockchain
 * `length`    - optional split size, `3072` bytes [max](https://kevacoin.org/faq.html)
-* `delay`     - optional seconds of parts sending delay to prevent `too-long-mempool-chain` reject, `60` by default
+* `delay`     - optional seconds of parts sending delay to prevent `too-long-mempool-chain` reject, default `60`
 
 ### get
 
