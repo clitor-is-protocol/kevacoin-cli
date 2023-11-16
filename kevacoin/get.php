@@ -83,6 +83,7 @@ if (empty($clitoris->file->name))
 // Merge content data
 $pieces = [];
 foreach (
+    (array)
     _exec(
         $argv[1],
         sprintf(
@@ -92,6 +93,13 @@ foreach (
         )
     ) as $piece)
 {
+    if (empty($piece->key) || empty($piece->value))
+    {
+        exit(
+            'please wait for all pieces sending complete!'
+        );
+    }
+
     $pieces[$piece->key] = $piece->value;
 
     print_r(
