@@ -1,6 +1,6 @@
 # clitor
 
-CLI util to operate with large objects in small blocks size
+CLI util to operate with large objects in small blocks
 
 ## drivers
 
