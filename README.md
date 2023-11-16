@@ -1,6 +1,6 @@
 # clitor
 
-CLI for large objects in small blocks
+Keep large objects in small blocks
 
 ## drivers
 
