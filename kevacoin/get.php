@@ -24,60 +24,97 @@ function _exec(
     return false;
 }
 
-// Get last namespace value
-$kevaNS = _exec(
+// Get clitoris
+$clitoris = _exec(
     $argv[1],
     sprintf(
-        '%s %s "_KEVA_NS_"',
-        'keva_filter',
+        '%s %s "_CLITOR_IS_"',
+        'keva_get',
         $argv[2]
     )
 );
 
-print_r($kevaNS);
+print_r(
+    $clitoris
+);
 
-$names = [];
-
-foreach ($kevaNS as $ns)
+if (empty($clitoris->value))
 {
-    $names[$ns->height] = $ns->value;
+   exit(
+       sprintf(
+           '%s does not contain _CLITOR_IS_' . PHP_EOL,
+           $argv[2]
+       )
+   );
 }
 
-krsort($names);
+if (!$clitoris = @json_decode(
+     $clitoris->value
+))
+{
+    exit(
+        sprintf(
+            'could not decode _CLITOR_IS_ of %s' . PHP_EOL,
+            $argv[2]
+        )
+    );
+}
 
-// Get namespace content
-$parts = _exec(
-    $argv[1],
-    sprintf(
-        '%s %s "\d+"',
-        'keva_filter',
-        $argv[2]
-    )
-);
+if ($clitoris->version !== '1.0')
+{
+    exit(
+        sprintf(
+            '_CLITOR_IS_ of %s not compatible!' . PHP_EOL,
+            $argv[2]
+        )
+    );
+}
 
-print_r($parts);
+if (empty($clitoris->file->name))
+{
+    exit(
+        sprintf(
+            '_CLITOR_IS_ format issue for %s!' . PHP_EOL,
+            $argv[2]
+        )
+    );
+}
 
 // Merge content data
-$data = [];
-foreach ($parts as $part)
+$pieces = [];
+foreach (
+    _exec(
+        $argv[1],
+        sprintf(
+            '%s %s "\d+"',
+            'keva_filter',
+            $argv[2]
+        )
+    ) as $piece)
 {
-    $data[$part->key] = $part->value;
+    $pieces[$piece->key] = $piece->value;
+
+    print_r(
+        $piece
+    );
 }
 
-ksort($data);
+ksort(
+    $pieces
+);
 
 // Save merged data to destination
 $filename = isset($argv[3]) ? $argv[3] : sprintf(
-    '%s/../data/import/kevacoin.%s.%s',
+    '%s/../data/import/[kevacoin][%s]%s',
     __DIR__,
     $argv[2],
-    $names[array_key_first($names)]
+    $clitoris->file->name
 );
 
 file_put_contents(
     $filename,
     base64_decode(
-        implode('', $data)
+        implode('', $pieces)
     )
 );
 

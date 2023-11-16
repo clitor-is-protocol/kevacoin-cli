@@ -24,58 +24,131 @@ function _exec(
     return false;
 }
 
-// Create namespace
-$kevaNamespace = _exec(
+// Check file exits
+if (!file_exists($argv[2]))
+{
+    exit('filename does not exist!' . PHP_EOL);
+}
+
+// Get file hash sum
+$md5file = md5_file(
+    $argv[2]
+);
+
+// Split content to smaller parts, according to the protocol limits
+$size = isset($argv[3]) && $argv[3] <= 3072 ? (int) $argv[3] : 3072;
+
+$pieces = str_split(
+    base64_encode(
+        file_get_contents(
+            $argv[2]
+        )
+    ),
+    $size
+);
+
+// Count total pieces
+$total = count(
+    $pieces
+);
+
+// Get software protocol details
+$software = _exec(
+    $argv[1],
+    '-getinfo'
+);
+
+print_r($software);
+
+// Create namespace to collect there data pieces
+$ns = _exec(
     $argv[1],
     sprintf(
-        '%s %s',
+        "%s '%s'",
         'keva_namespace',
-        basename($argv[2])
+        $md5file
     )
 );
 
-print_r($kevaNamespace);
+print_r($ns);
 
-// Insert content parts
-if (!empty($kevaNamespace->namespaceId))
+// Create meta description for the future generations
+print_r(
+    _exec(
+        $argv[1],
+        sprintf(
+            "%s %s '%s' '%s'",
+            'keva_put',
+            $ns->namespaceId,
+            '_CLITOR_IS_',
+            json_encode(
+                [
+                    'version' => '1.0',
+                    'model' =>
+                    [
+                        'name' => 'kevacoin',
+                        'software' =>
+                        [
+                            'version'  => $software->version,
+                            'protocol' => $software->protocolversion
+                        ]
+                    ],
+                    'pieces'  =>
+                    [
+                        'total' => $total,
+                        'size'  => $size,
+                    ],
+                    'file' =>
+                    [
+                        'name' => basename(
+                            $argv[2]
+                        ),
+                        'mime' => mime_content_type(
+                            $argv[2]
+                        ),
+                        'size' => filesize(
+                            $argv[2]
+                        ),
+                        'md5'  => $md5file
+                    ]
+                ]
+            )
+        )
+    )
+);
+
+// Begin pieces saving
+foreach ($pieces as $key => $value)
 {
-    $parts = str_split(
-        base64_encode(
-            file_get_contents($argv[2])
-        ),
-        isset($argv[3]) && $argv[3] <= 3072 ? (int) $argv[3] : 3072 // 3072 bytes limit
-    );
-
-    foreach ($parts as $key => $value)
-    {
-        $kevaPut = _exec(
+    print_r(
+        _exec(
             $argv[1],
             sprintf(
-                '%s %s %s %s',
+                "%s '%s' '%s' '%s'",
                 'keva_put',
-                $kevaNamespace->namespaceId,
+                $ns->namespaceId,
                 $key,
                 $value
             )
-        );
+        )
+    );
 
-        print_r($kevaPut);
-
-        $delay = isset($argv[4]) ? (int) $argv[4] : 60;
-
-        echo sprintf(
-            '%s/%s sent, waiting %s seconds...' . PHP_EOL,
-            $key + 1,
-            count($parts),
-            $delay
-        );
-
-        sleep($delay);
-    }
+    // Apply delays to prevent too-long-mempool-chain reject
+    $delay = isset($argv[4]) && $argv[4] > 0 ? (int) $argv[4] : 60;
 
     echo sprintf(
-        'done! run to extract: php kevacoin/get.php %s %s' . PHP_EOL,
-        $argv[1],
-        $kevaNamespace->namespaceId
+        '%s/%s sent, waiting %s seconds...' . PHP_EOL,
+        $key + 1,
+        $total,
+        $delay
     );
+
+    sleep($delay);
 }
+
+// Print result
+echo sprintf(
+    'done! run to extract: php kevacoin/get.php %s %s' . PHP_EOL,
+    $argv[1],
+    $ns->namespaceId
+);
