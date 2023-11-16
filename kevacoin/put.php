@@ -72,4 +72,10 @@ if (!empty($kevaNamespace->namespaceId))
 
         sleep($delay);
     }
+
+    echo sprintf(
+        'done! run to extract: php kevacoin/get.php %s %s' . PHP_EOL,
+        $argv[1],
+        $kevaNamespace->namespaceId
+    );
 }
