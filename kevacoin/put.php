@@ -83,7 +83,7 @@ print_r(
             '_CLITOR_IS_',
             json_encode(
                 [
-                    'version' => '1.0',
+                    'version' => '1.0.0',
                     'model' =>
                     [
                         'name' => 'kevacoin',

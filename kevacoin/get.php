@@ -60,7 +60,7 @@ if (!$clitoris = @json_decode(
     );
 }
 
-if ($clitoris->version !== '1.0')
+if ($clitoris->version !== '1.0.0')
 {
     exit(
         sprintf(
