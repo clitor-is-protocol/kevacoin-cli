@@ -93,7 +93,7 @@ foreach (
         )
     ) as $piece)
 {
-    if (empty($piece->key) || empty($piece->value))
+    if (!isset($piece->key) || !isset($piece->value))
     {
         exit(
             'please wait for all pieces sending complete!'
