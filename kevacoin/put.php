@@ -149,7 +149,8 @@ foreach ($pieces as $key => $value)
 
 // Print result
 echo sprintf(
-    'done! run to extract: php kevacoin/get.php %s %s' . PHP_EOL,
+    'done! run to extract: php %s/get.php %s %s' . PHP_EOL,
+    __DIR__,
     $argv[1],
     $ns->namespaceId
 );
