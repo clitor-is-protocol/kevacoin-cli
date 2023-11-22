@@ -81,7 +81,7 @@ if (empty($clitoris->file->name))
 }
 
 // Merge content data
-$pieces = [];
+$chain = [];
 foreach (
     (array)
     _exec(
@@ -93,25 +93,47 @@ foreach (
         )
     ) as $piece)
 {
-    if (!isset($piece->key) || !isset($piece->value))
+    if (
+        !isset($piece->key)   ||
+        !isset($piece->value) ||
+        !isset($piece->height)
+    )
     {
         exit(
             'please wait for all pieces sending complete!'
         );
     }
 
-    $pieces[$piece->key] = $piece->value;
+    // Keep all key versions in memory
+    $chain[$piece->key][$piece->height] = $piece->value;
 
     print_r(
         $piece
     );
 }
 
+// Select last piece value by it max block height
+//
+// piece could have many of versions (with same key)
+// this feature related to data reading correction after recovery #1
+
+$pieces = [];
+
+foreach ($chain as $key => $height)
+{
+
+    ksort(
+        $height
+    );
+
+    $pieces[$key] = $height[array_key_last($height)];
+}
+
 ksort(
     $pieces
 );
 
-// Save merged data to destination
+// Save file to destination
 $filename = isset($argv[3]) ? $argv[3] : sprintf(
     '%s/../data/import/[kevacoin][%s]%s',
     __DIR__,
