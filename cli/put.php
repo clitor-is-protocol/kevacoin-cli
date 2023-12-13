@@ -91,8 +91,7 @@ print_r(
                         [
                             'version'  => $software->version,
                             'protocol' => $software->protocolversion
-                        ],
-                        'namespace' => $ns->namespaceId
+                        ]
                     ],
                     'pieces'  =>
                     [
