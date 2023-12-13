@@ -1,17 +1,13 @@
-# clitor
+# kevacoin-cli
 
-Keep large objects in small blocks
-
-## drivers
-
- * [x] [kevacoin](https://github.com/kevacoin-project/kevacoin)
+CLI tools for KevaCoin blockchain
 
 ### put
 
 export FS object to blockchain
 
 ```
-php kevacoin/put.php processor filename [length] [delay]
+php cli/put.php processor filename [length] [delay]
 ```
 
 * `processor` - path to `kevacoin-cli`
@@ -24,7 +20,7 @@ php kevacoin/put.php processor filename [length] [delay]
 import from blockchain to FS location
 
 ```
-php kevacoin/get.php processor namespace [destination]
+php cli/get.php processor namespace [destination]
 ```
 
 * `processor`   - path to `kevacoin-cli`
