@@ -168,7 +168,7 @@ foreach ((array) $namespaces as $namespace)
                 $delay = isset($argv[3]) && $argv[3] > 0 ? (int) $argv[3] : 60;
 
                 echo sprintf(
-                    'Piece %s sent, waiting %s seconds...' . PHP_EOL,
+                    'Piece %s/%s sent, waiting %s seconds...' . PHP_EOL,
                     $key,
                     $total,
                     $delay
