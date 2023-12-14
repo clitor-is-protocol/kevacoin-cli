@@ -20,7 +20,7 @@ php cli/put.php processor filename [length] [delay]
 check and fix FS object in blockchain
 
 ```
-php cli/put.php processor filename [delay]
+php cli/fix.php processor filename [delay]
 ```
 
 * `processor` - path to `kevacoin-cli`
