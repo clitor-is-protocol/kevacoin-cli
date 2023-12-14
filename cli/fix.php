@@ -169,7 +169,7 @@ foreach ((array) $namespaces as $namespace)
 
                 echo sprintf(
                     'Piece %s/%s sent, waiting %s seconds...' . PHP_EOL,
-                    $key,
+                    $key + 1,
                     $total,
                     $delay
                 );
