@@ -120,8 +120,9 @@ foreach ((array) $namespaces as $namespace)
                 if (empty($piece->value))
                 {
                     echo sprintf(
-                        'Piece %s value not found, creating...' . PHP_EOL,
-                        $key
+                        'Piece %s/%s value not found, creating...' . PHP_EOL,
+                        $key + 1,
+                        $total
                     );
                 }
 
@@ -129,8 +130,9 @@ foreach ((array) $namespaces as $namespace)
                 else if ($piece->value !== $value)
                 {
                     echo sprintf(
-                        'Piece %s value invalid (%s <> %s), rewriting...' . PHP_EOL,
-                        $key,
+                        'Piece %s/%s value invalid (%s <> %s), rewriting...' . PHP_EOL,
+                        $key + 1,
+                        $total,
                         md5(
                             $piece->value
                         ),
@@ -144,8 +146,9 @@ foreach ((array) $namespaces as $namespace)
                 else
                 {
                     echo sprintf(
-                        'Piece %s - OK' . PHP_EOL,
-                        $key
+                        'Piece %s/%s - OK' . PHP_EOL,
+                        $key + 1,
+                        $total
                     );
 
                     continue;
