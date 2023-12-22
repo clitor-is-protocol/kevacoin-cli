@@ -35,6 +35,17 @@ $md5file = md5_file(
     $argv[2]
 );
 
+// Get file name
+$name = basename(
+    $argv[2]
+);
+
+// Check filename not longer of protocol
+if (mb_strlen($name) > 255)
+{
+    $name = $md5file;
+}
+
 // Split content to smaller parts, according to the protocol limits
 $size = isset($argv[3]) && $argv[3] <= 3072 ? (int) $argv[3] : 3072;
 
@@ -66,7 +77,7 @@ $ns = _exec(
     sprintf(
         "%s '%s'",
         'keva_namespace',
-        $md5file
+        $name
     )
 );
 
